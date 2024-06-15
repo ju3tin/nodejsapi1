@@ -21,6 +21,19 @@ const deleteKeys = async (pattern) => {
   }
 }
 
+
+app.get('/api/data', async (req, res) => {
+    const { skip = 0 } = req.query;
+
+    try {
+        const response = await axios.get(`https://members-api.parliament.uk/api/Location/Constituency/Search?skip=${skip}&take=20`);
+        const data = response.data;
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.get("/api/v1/books", async (req, res) => {
   const { limit = 5, orderBy = "name", sortBy = "asc", keyword } = req.query;
   let page = +req.query?.page;
